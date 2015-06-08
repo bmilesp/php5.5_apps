@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+if [ ! -e "/etc/apache2/docker_run_lock_file" ]; then
+	echo "127.0.0.1	ag.ugp" >> /etc/hosts
+	echo "127.0.0.1	pos.ugp" >> /etc/hosts
+	echo "127.0.0.1	pogo.ugp" >> /etc/hosts
+	chmod 777 -R /var/www/html/ag.ugp/tmp
+	chmod 777 -R /var/www/html/pos.ugp/tmp
+	chmod 777 -R /var/www/html/pogo/tmp
+fi
+
+touch /etc/apache2/docker_run_lock_file
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
